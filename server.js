@@ -39,7 +39,7 @@ app.use(bodyParser.json());
 
 
 // Importamos las rutas
-var routes = require('./urls_api/canal_url');
+var routes = require('./urls_api/url');
 
 
 // Cargamos las rutas
