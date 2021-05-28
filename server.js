@@ -50,7 +50,6 @@ module.exports = app;
 
 
 const conexion = require('./database/database');
-const api = require('./urls_api/canal_url');
 conexion.connect(function(err) {
     if (err) {
         console.error(err);

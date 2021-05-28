@@ -4,20 +4,11 @@
 var express = require('express');
 
 // Cargamos el controlador
-var canal_controller = require('../controllers/canales');
 var usuario_controller = require('../controllers/usuarios');
 var roles_controller = require('../controllers/roles');
 
 // Llamamos al router
 var api = express.Router();
-
-// Creamos una ruta de tipo GET para el método de pruebas
-// api.put('/canales', canal_controller.saveCanal);
-// api.get('/usuarios', canal_controller.getCanales);
-// api.get('/canales/:id', canal_controller.getCanal);
-// api.post('/canales/:id', canal_controller.updateCanal);
-// api.delete('/canales/:id', canal_controller.deleteCanal);
-
 
 //Rutas para las api de roles
 api.get('/roles', roles_controller.getRoles);
