@@ -1,4 +1,5 @@
 const conexion = require('../database/database');
+const bcrypt = require('bcrypt');
 
 function saveUsuario(req, res) {
 
@@ -12,29 +13,38 @@ function saveUsuario(req, res) {
     var register_hour = body.register_hour;
     var roles = body.roles;
 
-    conexion.query(`INSERT INTO usuarios(id, user, password, full_name, register_date, register_hour) VALUES (NULL,"${user}","${password}","${full_name}","${register_date}", "${register_hour}")`, function(error, results, fields) {
-        if (error)
-            return res.status(500).send({ message: error });
-        if (results) {
-            id = results.insertId;
-            for (let rol of roles) {
-                console.log(rol.id);
-                query_rol = `INSERT INTO roles_usuarios(id, user_id, rol_id) VALUES (NULL, ${id}, ${rol.id})`;
-                conexion.query(query_rol, function(error, results, fields) {
-                    if (error)
-                        console.log(error);
-                    if (results) {
-                        console.log(results);
-                    } else {
-                        console.log('asda');
-                    }
-                });
-            }
-            return res.status(201).send({ message: 'agregado correctamente' });
+
+    bcrypt.hash(password, 10, (err, encrypted) => {
+        if (err) {
+            console.log(err);
         } else {
-            return res.status(400).send({ message: 'Datos mal insertados' });
+            conexion.query(`INSERT INTO usuarios(id, user, password, full_name, register_date, register_hour) VALUES (NULL,"${user}","${encrypted}","${full_name}","${register_date}", "${register_hour}")`, function(error, results, fields) {
+                if (error)
+                    return res.status(500).send({ message: error });
+                if (results) {
+                    id = results.insertId;
+                    for (let rol of roles) {
+                        console.log(rol.id);
+                        query_rol = `INSERT INTO roles_usuarios(id, user_id, rol_id) VALUES (NULL, ${id}, ${rol.id})`;
+                        conexion.query(query_rol, function(error, results, fields) {
+                            if (error)
+                                console.log(error);
+                            if (results) {
+                                console.log(results);
+                            } else {
+                                console.log('asda');
+                            }
+                        });
+                    }
+                    return res.status(201).send({ message: 'agregado correctamente' });
+                } else {
+                    return res.status(400).send({ message: 'Datos mal insertados' });
+                }
+            });
         }
-    });
+    })
+
+
 }
 
 
@@ -139,10 +149,12 @@ function deleteUsuario(req, res) {
     });
 }
 
+
+
 module.exports = {
     saveUsuario,
     getUsuarios,
     getUsuario,
     updateUsuario,
-    deleteUsuario
+    deleteUsuario,
 };

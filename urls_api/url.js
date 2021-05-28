@@ -6,6 +6,7 @@ var express = require('express');
 // Cargamos el controlador
 var usuario_controller = require('../controllers/usuarios');
 var roles_controller = require('../controllers/roles');
+var login_controller = require('../controllers/login');
 
 // Llamamos al router
 var api = express.Router();
@@ -26,6 +27,9 @@ api.get('/usuarios', usuario_controller.getUsuarios);
 api.get('/usuarios/:id', usuario_controller.getUsuario);
 api.post('/usuarios/:id', usuario_controller.updateUsuario);
 api.delete('/usuarios/:id', usuario_controller.deleteUsuario);
+
+//Rutas para la api de login
+api.post('/login', login_controller.login);
 
 
 // Exportamos la configuración

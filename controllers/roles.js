@@ -125,17 +125,29 @@ function addRolesPermisos(req, res) {
     var is_delete = body.is_delete;
     var is_read = body.is_read;
 
-    var query = `INSERT INTO roles_permisos(id, rol_id, is_all, is_edit, is_create, is_delete, is_read) VALUES (NULL,${id},${is_all},${is_edit},${is_create},${is_delete},${is_read})`;
-    console.log(query)
-    conexion.query(query, function(error, results, fields) {
-        if (error)
-            return res.status(500).send({ message: 'error en el servidor' });
-        if (results) {
-            return res.status(200).json(results);
+    conexion.query(`SELECT * FROM roles_permisos WHERE rol_id=${id}`, function(error, result, field) {
+        if (error) {
+            return res.status(500).send({ message: 'error con el servidor' });
+        }
+        if (result) {
+            conexion.query(`UPDATE roles_permisos SET is_all=${is_all},is_edit=${is_edit},is_create=${is_create},is_delete=${is_delete},is_read=${is_read} WHERE rol_id = ${id}`);
+            return res.status(200).send({ message: "Updated" });
         } else {
-            return res.status(404).send({ message: 'no existe ningun rol con ese id' });
+            var query = `INSERT INTO roles_permisos(id, rol_id, is_all, is_edit, is_create, is_delete, is_read) VALUES (NULL,${id},${is_all},${is_edit},${is_create},${is_delete},${is_read})`;
+            console.log(query)
+            conexion.query(query, function(errors, results, fields) {
+                if (errors)
+                    return res.status(500).send({ message: 'error en el servidor' });
+                if (results) {
+                    return res.status(200).json(results);
+                } else {
+                    return res.status(404).send({ message: 'no existe ningun rol con ese id' });
+                }
+            });
         }
     });
+
+
 }
 
 function getRolesByUser(req, res) {
