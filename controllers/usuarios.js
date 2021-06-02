@@ -11,20 +11,26 @@ function saveUsuario(req, res) {
     var full_name = body.full_name;
     var register_date = body.register_date;
     var register_hour = body.register_hour;
+    var avatar = body.avatar;
     var roles = body.roles;
-
-
+    console.log(req);
+    var mv = require('mv');
+    mv(avatar, './../public/images-avatar', function(err) {
+        // done. it tried fs.rename first, and then falls back to
+        // piping the source file to the dest file and then unlinking
+        // the source file.
+    });
     bcrypt.hash(password, 10, (err, encrypted) => {
         if (err) {
             console.log(err);
         } else {
-            conexion.query(`INSERT INTO usuarios(id, user, password, full_name, register_date, register_hour) VALUES (NULL,"${user}","${encrypted}","${full_name}","${register_date}", "${register_hour}")`, function(error, results, fields) {
+            conexion.query(`INSERT INTO usuarios(id, user, password, full_name, register_date, register_hour,avatar) VALUES (NULL,"${user}","${encrypted}","${full_name}","${register_date}", "${register_hour}","")`, function(error, results, fields) {
                 if (error)
                     return res.status(500).send({ message: error });
                 if (results) {
+
                     id = results.insertId;
                     for (let rol of roles) {
-                        console.log(rol.id);
                         query_rol = `INSERT INTO roles_usuarios(id, user_id, rol_id) VALUES (NULL, ${id}, ${rol.id})`;
                         conexion.query(query_rol, function(error, results, fields) {
                             if (error)
@@ -43,8 +49,16 @@ function saveUsuario(req, res) {
             });
         }
     })
+}
 
+function saveAvatar(req, res) {
+    let avatar = req.files.file;
+    avatar.mv(`./public/images-avatar/${avatar.name}`, err => {
 
+        if (err) return res.status(500).send({ message: err });
+        return res.status(200).send({ message: 'File upload' })
+
+    });
 }
 
 
@@ -157,4 +171,5 @@ module.exports = {
     getUsuario,
     updateUsuario,
     deleteUsuario,
+    saveAvatar
 };

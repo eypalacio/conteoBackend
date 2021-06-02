@@ -129,7 +129,7 @@ function addRolesPermisos(req, res) {
         if (error) {
             return res.status(500).send({ message: 'error con el servidor' });
         }
-        if (result) {
+        if (result.length > 0) {
             conexion.query(`UPDATE roles_permisos SET is_all=${is_all},is_edit=${is_edit},is_create=${is_create},is_delete=${is_delete},is_read=${is_read} WHERE rol_id = ${id}`);
             return res.status(200).send({ message: "Updated" });
         } else {

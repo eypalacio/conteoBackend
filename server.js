@@ -4,31 +4,11 @@
 const express = require('express')
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const multer = require('multer');
+const fileUpload = require('express-fileupload');
 
 
 const app = express();
 const port = 3000;
-
-
-
-const storage = multer.diskStorage({
-    destination: function(req, file, cd) {
-        cb(null, '/public/images')
-    },
-    filename: function(req, file, cb) {
-        console.log(file);
-        cb(null, file.fieldname + '-' + Date.now())
-    }
-});
-
-const upload = multer({ storage: storage });
-exports.upload = upload.single('myFile');
-
-app.post('/upload', (req, res) => {
-    console.log('upload');
-    upload;
-})
 
 app.use(cors());
 
@@ -36,7 +16,8 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
+// Configuracion para subir imagenes
+app.use(fileUpload());
 
 // Importamos las rutas
 var routes = require('./urls_api/url');
@@ -44,6 +25,23 @@ var routes = require('./urls_api/url');
 
 // Cargamos las rutas
 app.use('/apis', routes);
+
+
+app.post('/uploadp', (req, res) => {
+
+    let EDFile = req.files.file;
+
+
+    EDFile.mv(`./public/images-doc/${EDFile.name}`, err => {
+
+        if (err) return res.status(500).send({ message: err })
+
+
+        return res.status(200).send({ message: 'File upload' })
+
+    })
+
+})
 
 
 module.exports = app;

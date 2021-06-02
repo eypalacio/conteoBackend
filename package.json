@@ -1,29 +1,38 @@
 {
-    "name": "NodeJs",
-    "version": "1.0.0",
-    "description": "",
-    "main": "server.js",
-    "dependencies": {
-        "bcrypt": "^5.0.1",
-        "body-parser": "^1.19.0",
-        "cors": "^2.8.5",
-        "express": "^4.17.1",
-        "express-fileupload": "^1.2.1",
-        "jscs": "^3.0.7",
-        "multer": "^1.4.2",
-        "mysql": "^2.18.1",
-        "pug": "^3.0.2",
-        "sqlite3": "^5.0.2"
-    },
-    "devDependencies": {
-        "nodemon": "^2.0.7"
-    },
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node server.js",
-        "startdev": "nodemon server.js"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC"
+  "name": "NodeJs",
+  "version": "1.0.0",
+  "main": "server.js",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "jscs": "^3.0.7",
+    "multer": "^1.4.2",
+    "mv": "^2.1.1",
+    "mysql": "^2.18.1",
+    "pug": "^3.0.2",
+    "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "startdev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmillerg/sistema-documental-backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dmillerg/sistema-documental-backend/issues"
+  },
+  "homepage": "https://github.com/dmillerg/sistema-documental-backend#readme",
+  "description": ""
 }
