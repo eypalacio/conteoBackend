@@ -37,7 +37,8 @@ function saveUsuario(req, res) {
                     //         }
                     //     });
                     // }
-                    avatar.mv(`./../public/images-avatar/${avatar.name}`, function(err) {
+
+                    avatar.mv(`./public/images-avatar/${avatar.name}`, function(err) {
 
                     });
                     return res.status(201).send({ message: 'agregado correctamente' });
