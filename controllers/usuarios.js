@@ -2,7 +2,6 @@ const conexion = require('../database/database');
 const bcrypt = require('bcrypt');
 
 function saveUsuario(req, res) {
-
     // Recogemos los parametros del body
     var id = -1;
     var body = req.body;
@@ -11,15 +10,11 @@ function saveUsuario(req, res) {
     var full_name = body.full_name;
     var register_date = body.register_date;
     var register_hour = body.register_hour;
-    var avatar = body.avatar;
+    var avatar = req.files.avatar;
     var roles = body.roles;
     console.log(req);
     var mv = require('mv');
-    mv(avatar, './../public/images-avatar', function(err) {
-        // done. it tried fs.rename first, and then falls back to
-        // piping the source file to the dest file and then unlinking
-        // the source file.
-    });
+
     bcrypt.hash(password, 10, (err, encrypted) => {
         if (err) {
             console.log(err);
@@ -30,28 +25,32 @@ function saveUsuario(req, res) {
                 if (results) {
 
                     id = results.insertId;
-                    for (let rol of roles) {
-                        query_rol = `INSERT INTO roles_usuarios(id, user_id, rol_id) VALUES (NULL, ${id}, ${rol.id})`;
-                        conexion.query(query_rol, function(error, results, fields) {
-                            if (error)
-                                console.log(error);
-                            if (results) {
-                                console.log(results);
-                            } else {
-                                console.log('asda');
-                            }
-                        });
-                    }
+                    // for (let rol of roles) {
+                    //     query_rol = `INSERT INTO roles_usuarios(id, user_id, rol_id) VALUES (NULL, ${id}, ${rol.id})`;
+                    //     conexion.query(query_rol, function(error, results, fields) {
+                    //         if (error)
+                    //             console.log(error);
+                    //         if (results) {
+                    //             console.log(results);
+                    //         } else {
+                    //             console.log('asda');
+                    //         }
+                    //     });
+                    // }
+                    avatar.mv(`./../public/images-avatar/${avatar.name}`, function(err) {
+
+                    });
                     return res.status(201).send({ message: 'agregado correctamente' });
                 } else {
                     return res.status(400).send({ message: 'Datos mal insertados' });
                 }
             });
         }
-    })
+    });
 }
 
 function saveAvatar(req, res) {
+    console.log(req);
     let avatar = req.files.file;
     avatar.mv(`./public/images-avatar/${avatar.name}`, err => {
 

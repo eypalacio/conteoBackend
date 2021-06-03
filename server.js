@@ -5,6 +5,11 @@ const express = require('express')
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
+const multipart = require('connect-multiparty');
+
+const multiPartMiddleware = multipart({
+    uploadDir: './public/images-avatar'
+});
 
 
 const app = express();
@@ -27,9 +32,9 @@ var routes = require('./urls_api/url');
 app.use('/apis', routes);
 
 
-app.post('/uploadp', (req, res) => {
-
-    let EDFile = req.files.file;
+app.post('/uploads', (req, res) => {
+    console.log(req.files.avatar);
+    let EDFile = req.files.avatar;
 
 
     EDFile.mv(`./public/images-doc/${EDFile.name}`, err => {
@@ -40,7 +45,6 @@ app.post('/uploadp', (req, res) => {
         return res.status(200).send({ message: 'File upload' })
 
     })
-
 })
 
 
@@ -48,6 +52,7 @@ module.exports = app;
 
 
 const conexion = require('./database/database');
+const api = require('./urls_api/url');
 conexion.connect(function(err) {
     if (err) {
         console.error(err);
