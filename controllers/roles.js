@@ -38,7 +38,6 @@ function getRolesPermisos(req, res) {
     if (rol_name && rol_name != '') {
         query += `AND rol_name LIKE "%${rol_name}%" `;
     }
-    console.log(query);
     conexion.query(query, function(error, results, fields) {
         if (error)
             return res.status(500).send({ message: 'Error en el servidor' });
@@ -82,8 +81,7 @@ function getRoles(req, res) {
 function updateRol(req, res) {
     // Recogemos un parámetro por la url
     var id = req.params.id;
-    console.log(id)
-        // Recogemos los datos que nos llegen en el body de la petición
+    // Recogemos los datos que nos llegen en el body de la petición
     var body = req.body;
     var rol_name = body.rol_name;
     var description = body.description;
@@ -134,7 +132,6 @@ function addRolesPermisos(req, res) {
             return res.status(200).send({ message: "Updated" });
         } else {
             var query = `INSERT INTO roles_permisos(id, rol_id, is_all, is_edit, is_create, is_delete, is_read) VALUES (NULL,${id},${is_all},${is_edit},${is_create},${is_delete},${is_read})`;
-            console.log(query)
             conexion.query(query, function(errors, results, fields) {
                 if (errors)
                     return res.status(500).send({ message: 'error en el servidor' });

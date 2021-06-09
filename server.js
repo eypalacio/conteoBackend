@@ -33,7 +33,7 @@ app.use('/apis', routes);
 
 
 app.post('/uploads', (req, res) => {
-    console.log(req.files.avatar);
+
     let EDFile = req.files.avatar;
 
 

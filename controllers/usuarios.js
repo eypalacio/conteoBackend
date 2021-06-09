@@ -1,5 +1,6 @@
 const conexion = require('../database/database');
 const bcrypt = require('bcrypt');
+const { json } = require('body-parser');
 
 function saveUsuario(req, res) {
     // Recogemos los parametros del body
@@ -11,9 +12,7 @@ function saveUsuario(req, res) {
     var register_date = body.register_date;
     var register_hour = body.register_hour;
     var avatar = req.files.avatar;
-    var roles = body.roles;
-    console.log(req);
-    var mv = require('mv');
+    var roles = JSON.parse(body.roles);
 
     bcrypt.hash(password, 10, (err, encrypted) => {
         if (err) {
@@ -25,18 +24,19 @@ function saveUsuario(req, res) {
                 if (results) {
 
                     id = results.insertId;
-                    // for (let rol of roles) {
-                    //     query_rol = `INSERT INTO roles_usuarios(id, user_id, rol_id) VALUES (NULL, ${id}, ${rol.id})`;
-                    //     conexion.query(query_rol, function(error, results, fields) {
-                    //         if (error)
-                    //             console.log(error);
-                    //         if (results) {
-                    //             console.log(results);
-                    //         } else {
-                    //             console.log('asda');
-                    //         }
-                    //     });
-                    // }
+
+                    for (let rol of roles) {
+                        query_rol = `INSERT INTO roles_usuarios(id, user_id, rol_id) VALUES (NULL, ${id}, ${rol.id})`;
+                        conexion.query(query_rol, function(error, results, fields) {
+                            if (error)
+                                console.log(error);
+                            if (results) {
+                                console.log("result", results);
+                            } else {
+                                console.log('asda');
+                            }
+                        });
+                    }
 
                     avatar.mv(`./public/images-avatar/${avatar.name}`, function(err) {
 
@@ -60,7 +60,7 @@ function getUsuarios(req, res) {
     var register_hour = body.register_hour;
 
     var query = `SELECT * FROM usuarios WHERE 0=0 `;
-    console.log(body);
+
 
     if (user) {
         query += `AND user LIKE "%${user}%" `;
@@ -104,7 +104,6 @@ function getAvatar(req, res) {
     try {
         var id = req.params.id;
         conexion.query(`SELECT * FROM usuarios WHERE id = ${id}`, function(error, results, fields) {
-            console.log(results);
             if (error)
                 throw error;
             if (results.length > 0) {
@@ -138,7 +137,6 @@ function updateUsuario(req, res) {
             conexion.query(`DELETE FROM roles_usuarios WHERE user_id=${id}`);
             for (let rol of roles) {
                 var query_rol = `INSERT INTO roles_usuarios(id, user_id, rol_id) VALUES (NULL, ${id}, ${rol.id})`;
-                console.log("roles", query_rol);
                 conexion.query(query_rol, function(error, results, fields) {
                     if (error)
                         console.log(error);
@@ -163,9 +161,20 @@ function deleteUsuario(req, res) {
         if (error)
             return res.status(500).send({ message: 'error ssen el servidor' });
         if (results) {
+            deleteUserRol(id);
             return res.status(200).json(results);
         } else {
             return res.status(404).send({ message: 'no existe ningun usuario con ese id' });
+        }
+    });
+}
+
+function deleteUserRol(id) {
+    conexion.query(`DELETE FROM roles_usuarios WHERE user_id = ${id}`, function(error, results, fields) {
+        if (error)
+            return error;
+        if (results) {
+            return results
         }
     });
 }
