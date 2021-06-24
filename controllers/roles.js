@@ -44,7 +44,7 @@ function getRolesPermisos(req, res) {
         if (results.length > 0) {
             return res.status(200).json(results);
         } else {
-            return res.status(404).send({ message: 'No hay roles' });
+            return res.status(200).send({ message: 'No hay roles' });
         }
     });
 
@@ -72,7 +72,7 @@ function getRoles(req, res) {
         if (results.length > 0) {
             return res.status(200).json(results);
         } else {
-            return res.status(404).send({ message: 'No hay roles' });
+            return res.status(200).send({ message: 'No hay roles' });
         }
     });
 }
