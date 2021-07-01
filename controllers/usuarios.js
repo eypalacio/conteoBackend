@@ -33,9 +33,9 @@ function saveUsuario(req, res) {
                             if (error)
                                 console.log(error);
                             if (results) {
-                                console.log("result", results);
+                                // console.log("result", results);
                             } else {
-                                console.log('asda');
+                                // console.log('asda');
                             }
                         });
                     }
@@ -116,46 +116,52 @@ function updateUsuario(req, res) {
     console.log(avatar.name)
     console.log(user);
     // Buscamos por id y actualizamos el objeto y devolvemos el objeto actualizado
+
     conexion.query(`UPDATE usuarios SET user="${user}",password="${password}",full_name="${full_name}",avatar="${user}.jpg" WHERE id = ${id}`, function(error, results, fields) {
         if (error)
             return res.status(500).send({ message: 'error en el servidor' });
         if (results) {
-            deleteAvatar(id);
             saveAvatar(avatar, user);
             conexion.query(`DELETE FROM roles_usuarios WHERE user_id=${id}`);
-            // for (let rol of roles) {
-            //     var query_rol = `INSERT INTO roles_usuarios(id, user_id, rol_id) VALUES (NULL, ${id}, ${rol.id})`;
-            //     conexion.query(query_rol, function(error, results, fields) {
-            //         if (error)
-            //             console.log(error);
-            //         if (results) {
-            //             console.log(results);
-            //         } else {
-            //             console.log('asda');
-            //         }
-            //     });
-            // }
+            for (let rol of roles) {
+                var query_rol = `INSERT INTO roles_usuarios(id, user_id, rol_id) VALUES (NULL, ${id}, ${rol.id})`;
+                conexion.query(query_rol, function(error, results, fields) {
+                    if (error)
+                        console.log(error);
+                    if (results) {
+                        console.log(results);
+                    } else {
+                        console.log('asda');
+                    }
+                });
+            }
             return res.status(201).send({ message: 'agregado correctamente' });
         } else {
             return res.status(404).send({ message: 'no existe ningun usuario con ese id' });
         }
     });
+
 }
 
 function deleteUsuario(req, res) {
     var id = req.params.id;
     // Buscamos por id y actualizamos el objeto y devolvemos el objeto actualizado
-    deleteAvatar(id);
-    conexion.query(`DELETE FROM usuarios WHERE id = ${id}`, function(error, results, fields) {
-        if (error)
-            return res.status(500).send({ message: 'error en el servidor' });
-        if (results) {
-            deleteUserRol(id);
-            return res.status(200).json(results);
-        } else {
-            return res.status(404).send({ message: 'no existe ningun usuario con ese id' });
+    conexion.query(`SELECT * FROM usuarios WHERE id = ${id}`, function(error, result, fields) {
+        if (result) {
+            deleteAvatar(result.user);
+            conexion.query(`DELETE FROM usuarios WHERE id = ${id}`, function(error, results, fields) {
+                if (error)
+                    return res.status(500).send({ message: 'error en el servidor' });
+                if (results) {
+                    deleteUserRol(id);
+                    return res.status(200).json(results);
+                } else {
+                    return res.status(404).send({ message: 'no existe ningun usuario con ese id' });
+                }
+            });
         }
     });
+
 }
 
 function deleteUserRol(id) {
@@ -188,37 +194,35 @@ function getAvatar(req, res) {
 
 function deleteAvatarApi(req, res) {
     const id = req.params.id;
-    conexion.query(`UPDATE usuarios SET avatar="" WHERE id = ${id}`, function(error, results, fields) {
-        if (error) {
-            return res.status(500).send({ message: 'ocurrio un problema en el servidor' });
-        }
+    conexion.query(`SELECT * FROM usuarios WHERE id=${id}`, function(err, result) {
         if (result) {
-            deleteAvatar(id);
-            return res.status(200).send({ message: 'avatar eliminado correctamente' });
+            deleteAvatar(result[0].user);
+            conexion.query(`UPDATE usuarios SET avatar="" WHERE id = ${id}`, function(error, results, fields) {
+                if (error) {
+                    return res.status(500).send({ message: 'ocurrio un problema en el servidor' });
+                }
+                if (results) {
+                    return res.status(200).send({ message: 'avatar eliminado correctamente' });
+                }
+            });
         }
     });
 }
 
-function deleteAvatar(id) {
-    conexion.query(`SELECT * FROM usuarios WHERE id = ${id}`, function(error, result, fields) {
-        if (error) {
-            console.log(error);
-        }
-        if (result) {
-            const pathViejo = `./public/images-avatar/${result[0].avatar}`;
-            console.log(pathViejo);
-            const fs = require("fs");
-            if (fs.existsSync(pathViejo)) {
-                console.log("borrado");
-                fs.unlinkSync(pathViejo);
-            }
-        }
-    });
+function deleteAvatar(user) {
+    const pathViejo = `./public/images-avatar/${user}.jpg`;
+    // console.log(pathViejo);
+    const fs = require("fs");
+    if (fs.existsSync(pathViejo)) {
+        console.log("borrado");
+        fs.unlinkSync(pathViejo);
+    }
+    return "borrardo correctamente";
 }
 
 function saveAvatar(avatar, usuario) {
     if (avatar.name != null) {
-        console.log("agregando foto", usuario);
+        // console.log("agregando foto", usuario);
         avatar.mv(`./public/images-avatar/${usuario}.jpg`, function(err) {});
     }
 }
@@ -230,5 +234,6 @@ module.exports = {
     getUsuario,
     updateUsuario,
     deleteUsuario,
-    getAvatar
+    getAvatar,
+    deleteAvatarApi
 };

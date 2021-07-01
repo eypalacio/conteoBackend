@@ -28,6 +28,7 @@ api.get('/usuarios/:id', usuario_controller.getUsuario);
 api.post('/usuarios/:id', usuario_controller.updateUsuario);
 api.delete('/usuarios/:id', usuario_controller.deleteUsuario);
 api.get('/avatar/:id', usuario_controller.getAvatar)
+api.delete('/avatar/:id', usuario_controller.deleteAvatarApi)
 
 //Rutas para la api de login
 api.post('/login', login_controller.login);
