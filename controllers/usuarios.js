@@ -33,7 +33,7 @@ function saveUsuario(req, res) {
                             if (error)
                                 console.log(error);
                             if (results) {
-                                // console.log("result", results);
+                                console.log("result", results);
                             } else {
                                 // console.log('asda');
                             }
@@ -110,11 +110,12 @@ function updateUsuario(req, res) {
     var user = update.user;
     var password = update.password;
     var full_name = update.full_name;
-    var roles = update.roles;
+    var roles = JSON.parse(update.roles);
+
     var avatar = { name: null };
     if (req.files) avatar = req.files.avatar;
     console.log(avatar.name)
-    console.log(user);
+    console.log(roles);
     // Buscamos por id y actualizamos el objeto y devolvemos el objeto actualizado
 
     conexion.query(`UPDATE usuarios SET user="${user}",password="${password}",full_name="${full_name}",avatar="${user}.jpg" WHERE id = ${id}`, function(error, results, fields) {
@@ -124,14 +125,15 @@ function updateUsuario(req, res) {
             saveAvatar(avatar, user);
             conexion.query(`DELETE FROM roles_usuarios WHERE user_id=${id}`);
             for (let rol of roles) {
-                var query_rol = `INSERT INTO roles_usuarios(id, user_id, rol_id) VALUES (NULL, ${id}, ${rol.id})`;
+                console.log("roles", rol)
+                query_rol = `INSERT INTO roles_usuarios(id, user_id, rol_id) VALUES (NULL, ${id}, ${rol.id})`;
                 conexion.query(query_rol, function(error, results, fields) {
                     if (error)
                         console.log(error);
                     if (results) {
-                        console.log(results);
+                        console.log("result", results);
                     } else {
-                        console.log('asda');
+                        // console.log('asda');
                     }
                 });
             }
