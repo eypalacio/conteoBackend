@@ -7,6 +7,7 @@ var express = require('express');
 var usuario_controller = require('../controllers/usuarios');
 var roles_controller = require('../controllers/roles');
 var login_controller = require('../controllers/login');
+var document_controller = require('../controllers/documents');
 
 // Llamamos al router
 var api = express.Router();
@@ -33,6 +34,8 @@ api.delete('/avatar/:id', usuario_controller.deleteAvatarApi)
 //Rutas para la api de login
 api.post('/login', login_controller.login);
 
+//Rutas para el api de documentos
+api.get('/documents/:id', document_controller.getDocuments);
 
 // Exportamos la configuración
 module.exports = api;
