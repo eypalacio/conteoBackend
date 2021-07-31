@@ -36,6 +36,9 @@ api.post('/login', login_controller.login);
 
 //Rutas para el api de documentos
 api.get('/documents/:id', document_controller.getDocuments);
+api.post('/documents', document_controller.saveDocument);
+api.get('/documentsFoto/:id', document_controller.getFoto);
+
 
 // Exportamos la configuración
 module.exports = api;
