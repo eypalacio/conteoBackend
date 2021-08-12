@@ -8,6 +8,8 @@ var usuario_controller = require('../controllers/usuarios');
 var roles_controller = require('../controllers/roles');
 var login_controller = require('../controllers/login');
 var document_controller = require('../controllers/documents');
+var managedb_controller = require('../database/manageDB');
+var superuser_controller = require('../database/superuser');
 
 // Llamamos al router
 var api = express.Router();
@@ -38,6 +40,17 @@ api.post('/login', login_controller.login);
 api.get('/documents/:id', document_controller.getDocuments);
 api.post('/documents', document_controller.saveDocument);
 api.get('/documentsFoto/:id', document_controller.getFoto);
+api.delete('/documents/:id', document_controller.deleteDocument);
+api.post('/documents/:id',document_controller.updateDocument);
+
+//Rutas para manejar base de datos
+api.get('/database', managedb_controller.createTables);
+
+//Rutas para crear el primer superuser
+api.get('/superuser', superuser_controller.createSuperUser);
+api.post('/superuser', superuser_controller.saveSuperUsuario);
+
+
 
 
 // Exportamos la configuración
