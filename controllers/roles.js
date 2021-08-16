@@ -161,6 +161,20 @@ function getRolesByUser(req, res) {
     });
 }
 
+function getPermisosRol(req, res) {
+    var id = req.params.rol_id;
+    var query = `SELECT roles_permisos.* FROM roles_permisos JOIN roles ON roles.id=roles_permisos.rol_id WHERE roles_permisos.rol_id=${id}`;
+    conexion.query(query, function(error, results, fields) {
+        if (error)
+            return res.status(500).send({ message: error });
+        if (results.length > 0) {
+            return res.status(200).json(results);
+        } else {
+            return res.status(404).send({ message: 'el rol no tiene permisos asignados' });
+        }
+    });
+}
+
 module.exports = {
     saveRol,
     getRolesPermisos,
@@ -168,5 +182,6 @@ module.exports = {
     updateRol,
     deleteRol,
     addRolesPermisos,
-    getRolesByUser
+    getRolesByUser,
+    getPermisosRol
 };

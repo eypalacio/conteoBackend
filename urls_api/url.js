@@ -22,6 +22,7 @@ api.delete('/roles/:id', roles_controller.deleteRol);
 api.post('/rolesypermisos/:rol_id', roles_controller.addRolesPermisos);
 api.get('/rolesypermisos/:user_id', roles_controller.getRolesPermisos);
 api.get('/rolesbyuser/:user_id', roles_controller.getRolesByUser);
+api.get('/rolypermisos/:rol_id', roles_controller.getPermisosRol);
 
 
 // Rutas para las api de usuario
@@ -41,7 +42,7 @@ api.get('/documents/:id', document_controller.getDocuments);
 api.post('/documents', document_controller.saveDocument);
 api.get('/documentsFoto/:id', document_controller.getFoto);
 api.delete('/documents/:id', document_controller.deleteDocument);
-api.post('/documents/:id',document_controller.updateDocument);
+api.post('/documents/:id', document_controller.updateDocument);
 
 //Rutas para manejar base de datos
 api.get('/database', managedb_controller.createTables);
