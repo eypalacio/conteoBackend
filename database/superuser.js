@@ -12,20 +12,23 @@ function createSuperUser(req, res) {
         height: 40px;
         box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
         transition: 500ms;
+        outline: none;
     }
 
     input:hover {
         margin: 5px;
+        outline: solid #f44336;
         transition: 500ms;
     }
 
     input:focus{
         border: none;
+        outline: solid #f44336;
         /* border: solid rgb(212, 72, 29) 0.2em; */
     }
 
     button {
-        background-color: rgb(212, 72, 29);
+        background-color: #f44336;
         border: none;
         border-radius: 5px;
         height: 40px;
@@ -40,7 +43,7 @@ function createSuperUser(req, res) {
     }
 
     button:hover {
-        background-color: rgb(190, 65, 27);
+        background-color: #f44400;
         margin-inline: 5px;
         transition: 500ms;
     }
@@ -68,6 +71,15 @@ function createSuperUser(req, res) {
         color: white;
         height: 100px;
         width: 100px;
+        transition: 500ms;
+    }
+
+    svg:hover{
+        margin-inline: 34%;
+        color: #f44336;
+        width: 120px;
+        height: 120px;
+        transition: 500ms;
     }
 </style>
 
