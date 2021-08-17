@@ -31,11 +31,14 @@ api.get('/usuarios', usuario_controller.getUsuarios);
 api.get('/usuarios/:id', usuario_controller.getUsuario);
 api.post('/usuarios/:id', usuario_controller.updateUsuario);
 api.delete('/usuarios/:id', usuario_controller.deleteUsuario);
-api.get('/avatar/:id', usuario_controller.getAvatar)
-api.delete('/avatar/:id', usuario_controller.deleteAvatarApi)
+api.get('/avatar/:id', usuario_controller.getAvatar);
+api.delete('/avatar/:id', usuario_controller.deleteAvatarApi);
+api.get('/userhistory/:id', usuario_controller.getUserHistory);
 
 //Rutas para la api de login
 api.post('/login', login_controller.login);
+api.delete('/logout/:id', login_controller.logout);
+api.get('/useronline', login_controller.userOnline);
 
 //Rutas para el api de documentos
 api.get('/documents/:id', document_controller.getDocuments);

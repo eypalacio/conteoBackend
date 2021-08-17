@@ -1,6 +1,7 @@
 const { query } = require('../database/database');
 const conexion = require('../database/database');
 const bcrypt = require('bcrypt');
+const historico = require('./historico');
 
 function login(req, res) {
     var body = req.body;
@@ -12,7 +13,10 @@ function login(req, res) {
         if (error)
             return res.status(500).send({ message: 'error en el servidor', status: 500, err: error });
         if (result.length > 0) {
+            let query2 = `UPDATE user_online SET estado='activo' WHERE user_id=${result[0].id}`;
+            conexion.query(query2);
             if (bcrypt.compareSync(pass, result[0].password)) {
+                historico.saveAccion(result[0].id, 'Se logueo ');
                 return res.status(200).json({ message: 'usuario autenticado correctamente', status: 200, usuario: result });
             } else {
                 return res.status(404).send({ message: 'no existe ningun usuario con ese user y pass', status: 400 });
@@ -23,6 +27,36 @@ function login(req, res) {
     });
 }
 
+function userOnline(req, res) {
+    let query = `SELECT * FROM user_online`;
+    conexion.query(query, function(err, result, field) {
+        if (err) {
+            return res.status(500).send({ message: 'Ocurrio error interno del servidor por favor pruebe mas tarde' });
+        }
+        if (result) {
+            // historico.saveAccion(result[0].user_id, 'Entro a la sesion de usuarios activos e inactivos');
+            return res.status(200).send(result);
+        }
+    })
+}
+
+function logout(req, res) {
+    var id = req.params.id;
+    let query = `UPDATE user_online SET estado='inactivo' WHERE user_id=${id}`;
+    conexion.query(query, function(err, result, field) {
+        if (err) {
+            return res.status(500).send({ message: 'Ocurrio error interno del servidor por favor pruebe mas tarde' });
+        }
+        if (result) {
+            // console.log(result);
+            historico.saveAccion(id, 'Se deslogueo de pagina');
+            return res.status(200).send(result);
+        }
+    })
+}
+
 module.exports = {
-    login
+    login,
+    logout,
+    userOnline,
 };

@@ -26,7 +26,8 @@ function saveUsuario(req, res) {
                 if (results) {
 
                     id = results.insertId;
-
+                    let queryUserOnline = `INSERT INTO user_online(id, user_id, username, estado) VALUES (NULL, ${id}, "${user}","inactivo")`;
+                    conexion.query(queryUserOnline);
                     for (let rol of roles) {
                         query_rol = `INSERT INTO roles_usuarios(id, user_id, rol_id) VALUES (NULL, ${id}, ${rol.id})`;
                         conexion.query(query_rol, function(error, results, fields) {
@@ -155,6 +156,7 @@ function deleteUsuario(req, res) {
                 if (error)
                     return res.status(500).send({ message: 'error en el servidor' });
                 if (results) {
+                    conexion.query(`DELETE FROM user_online WHERE user_id = ${id}`);
                     deleteUserRol(id);
                     return res.status(200).json(results);
                 } else {
@@ -229,6 +231,19 @@ function saveAvatar(avatar, usuario) {
     }
 }
 
+function getUserHistory(req, res) {
+    const id = req.params.id;
+    let query = `SELECT * FROM user_history WHERE user_id=${id}`;
+    conexion.query(query, function(error, result, field) {
+        if (error) {
+            return res.status(500).send({ message: 'Error interno del servidor por favor intentelo mas tarde' });
+        }
+        if (result) {
+            res.status(200).send(result);
+        }
+    })
+}
+
 
 module.exports = {
     saveUsuario,
@@ -237,5 +252,6 @@ module.exports = {
     updateUsuario,
     deleteUsuario,
     getAvatar,
-    deleteAvatarApi
+    deleteAvatarApi,
+    getUserHistory,
 };

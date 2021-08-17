@@ -9,6 +9,8 @@ function createTables(req, res) {
     tableRolUsuario();
     tableRolPermisos();
     tableDocumentos();
+    tableUserOnline();
+    tableUserHistory();
     return res.status(200).send({ 'errores': errores, 'resultados': resultados, 'error': error_msg });
 }
 
@@ -23,7 +25,7 @@ function tableUsuario() {
         avatar text DEFAULT NULL
       ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
      `;
-    conexion.query(query, function (error, results, fields) {
+    conexion.query(query, function(error, results, fields) {
         if (error) {
             error += 1;
             error_msg = error
@@ -34,14 +36,14 @@ function tableUsuario() {
     var query2 = `ALTER TABLE usuarios
     ADD PRIMARY KEY (id) USING BTREE;
     ;`;
-    conexion.query(query2, function (error, results, fields) {
+    conexion.query(query2, function(error, results, fields) {
         if (error) errores += 1;
         if (results) resultados += 1;
     });
 
     var query3 = `ALTER TABLE usuarios
     MODIFY id int(11) NOT NULL AUTO_INCREMENT COMMENT "Llave Primaria";`;
-    conexion.query(query3, function (error, results, fields) {
+    conexion.query(query3, function(error, results, fields) {
         if (error) {
             error += 1;
             error_msg = error
@@ -50,7 +52,7 @@ function tableUsuario() {
     });
 
     var query4 = `COMMIT;`;
-    conexion.query(query4, function (error, results, fields) {
+    conexion.query(query4, function(error, results, fields) {
         if (error) {
             error += 1;
             error_msg = error
@@ -65,21 +67,21 @@ function tableRoles() {
         rol_name varchar(255) NOT NULL,
         description varchar(255) DEFAULT NULL
       ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT`;
-    conexion.query(query, function (error, results, fields) {
+    conexion.query(query, function(error, results, fields) {
         if (error) errores += 1;
         if (results) resultados += 1;
     });
 
     var query2 = `ALTER TABLE roles
     ADD PRIMARY KEY (id) USING BTREE`;
-    conexion.query(query2, function (error, results, fields) {
+    conexion.query(query2, function(error, results, fields) {
         if (error) errores += 1;
         if (results) resultados += 1;
     });
 
     var query3 = `ALTER TABLE roles
     MODIFY id int(11) NOT NULL AUTO_INCREMENT;`;
-    conexion.query(query3, function (error, results, fields) {
+    conexion.query(query3, function(error, results, fields) {
         if (error) {
             error += 1;
             error_msg = error
@@ -88,7 +90,7 @@ function tableRoles() {
     });
 
     var query4 = `COMMIT;`;
-    conexion.query(query4, function (error, results, fields) {
+    conexion.query(query4, function(error, results, fields) {
         if (error) {
             error += 1;
             error_msg = error
@@ -103,21 +105,21 @@ function tableRolUsuario() {
         user_id int(11) NOT NULL,
         rol_id int(11) NOT NULL
       ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT`;
-    conexion.query(query, function (error, results, fields) {
+    conexion.query(query, function(error, results, fields) {
         if (error) errores += 1;
         if (results) resultados += 1;
     });
 
     var query2 = `ALTER TABLE roles_usuarios
   ADD PRIMARY KEY (id,user_id,rol_id) USING BTREE`;
-    conexion.query(query2, function (error, results, fields) {
+    conexion.query(query2, function(error, results, fields) {
         if (error) errores += 1;
         if (results) resultados += 1;
     });
 
     var query3 = `ALTER TABLE roles_usuarios
     MODIFY id int(11) NOT NULL AUTO_INCREMENT;`;
-    conexion.query(query3, function (error, results, fields) {
+    conexion.query(query3, function(error, results, fields) {
         if (error) {
             error += 1;
             error_msg = error
@@ -126,7 +128,7 @@ function tableRolUsuario() {
     });
 
     var query4 = `COMMIT;`;
-    conexion.query(query4, function (error, results, fields) {
+    conexion.query(query4, function(error, results, fields) {
         if (error) {
             error += 1;
             error_msg = error
@@ -145,21 +147,21 @@ function tableRolPermisos() {
         is_delete tinyint(1) DEFAULT NULL,
         is_read tinyint(1) DEFAULT NULL
       ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT`;
-    conexion.query(query, function (error, results, fields) {
+    conexion.query(query, function(error, results, fields) {
         if (error) errores += 1;
         if (results) resultados += 1;
     });
 
     var query2 = `ALTER TABLE roles_permisos
     ADD PRIMARY KEY (id,rol_id) USING BTREE`;
-    conexion.query(query2, function (error, results, fields) {
+    conexion.query(query2, function(error, results, fields) {
         if (error) errores += 1;
         if (results) resultados += 1;
     });
 
     var query3 = `ALTER TABLE roles_permisos
     MODIFY id int(11) NOT NULL AUTO_INCREMENT;`;
-    conexion.query(query3, function (error, results, fields) {
+    conexion.query(query3, function(error, results, fields) {
         if (error) {
             error += 1;
             error_msg = error
@@ -168,7 +170,7 @@ function tableRolPermisos() {
     });
 
     var query4 = `COMMIT;`;
-    conexion.query(query4, function (error, results, fields) {
+    conexion.query(query4, function(error, results, fields) {
         if (error) {
             error += 1;
             error_msg = error
@@ -186,21 +188,21 @@ function tableDocumentos() {
         date text NOT NULL,
         estado tinyint(1) NOT NULL
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`;
-    conexion.query(query, function (error, results, fields) {
+    conexion.query(query, function(error, results, fields) {
         if (error) errores += 1;
         if (results) resultados += 1;
     });
 
     var query2 = `ALTER TABLE documentos
     ADD UNIQUE KEY id (id)`;
-    conexion.query(query2, function (error, results, fields) {
+    conexion.query(query2, function(error, results, fields) {
         if (error) errores += 1;
         if (results) resultados += 1;
     });
 
     var query3 = `ALTER TABLE documentos
     MODIFY id int(11) NOT NULL AUTO_INCREMENT;`;
-    conexion.query(query3, function (error, results, fields) {
+    conexion.query(query3, function(error, results, fields) {
         if (error) {
             error += 1;
             error_msg = error
@@ -209,7 +211,87 @@ function tableDocumentos() {
     });
 
     var query4 = `COMMIT;`;
-    conexion.query(query4, function (error, results, fields) {
+    conexion.query(query4, function(error, results, fields) {
+        if (error) {
+            error += 1;
+            error_msg = error
+        };
+        if (results) resultados += 1;
+    });
+}
+
+function tableUserOnline() {
+    var query = `CREATE TABLE user_online (
+        id bigint(20) UNSIGNED NOT NULL,
+        user_id int(11) NOT NULL,
+        username varchar(255) NOT NULL,
+        estado varchar(255) NOT NULL
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`;
+    conexion.query(query, function(error, results, fields) {
+        if (error) errores += 1;
+        if (results) resultados += 1;
+    });
+
+    var query2 = `ALTER TABLE user_online
+    ADD UNIQUE KEY id (id)`;
+    conexion.query(query2, function(error, results, fields) {
+        if (error) errores += 1;
+        if (results) resultados += 1;
+    });
+
+    var query3 = `ALTER TABLE user_online
+    MODIFY id int(11) NOT NULL AUTO_INCREMENT;`;
+    conexion.query(query3, function(error, results, fields) {
+        if (error) {
+            error += 1;
+            error_msg = error
+        };
+        if (results) resultados += 1;
+    });
+
+    var query4 = `COMMIT;`;
+    conexion.query(query4, function(error, results, fields) {
+        if (error) {
+            error += 1;
+            error_msg = error
+        };
+        if (results) resultados += 1;
+    });
+
+}
+
+function tableUserHistory() {
+    var query = `CREATE TABLE user_history (
+        id bigint(20) UNSIGNED NOT NULL,
+        user_id int(11) NOT NULL,
+        usuario varchar(255) NOT NULL,
+        accion TEXT NOT NULL,
+        fecha varchar(255) NOT NULL,
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`;
+    conexion.query(query, function(error, results, fields) {
+        if (error) errores += 1;
+        if (results) resultados += 1;
+    });
+
+    var query2 = `ALTER TABLE user_history
+    ADD UNIQUE KEY id (id)`;
+    conexion.query(query2, function(error, results, fields) {
+        if (error) errores += 1;
+        if (results) resultados += 1;
+    });
+
+    var query3 = `ALTER TABLE user_history
+    MODIFY id int(11) NOT NULL AUTO_INCREMENT;`;
+    conexion.query(query3, function(error, results, fields) {
+        if (error) {
+            error += 1;
+            error_msg = error
+        };
+        if (results) resultados += 1;
+    });
+
+    var query4 = `COMMIT;`;
+    conexion.query(query4, function(error, results, fields) {
         if (error) {
             error += 1;
             error_msg = error
