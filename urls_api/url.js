@@ -10,6 +10,7 @@ var login_controller = require('../controllers/login');
 var document_controller = require('../controllers/documents');
 var managedb_controller = require('../database/manageDB');
 var superuser_controller = require('../database/superuser');
+var historico_controller = require('../controllers/historico');
 
 // Llamamos al router
 var api = express.Router();
@@ -54,7 +55,8 @@ api.get('/database', managedb_controller.createTables);
 api.get('/superuser', superuser_controller.createSuperUser);
 api.post('/superuser', superuser_controller.saveSuperUsuario);
 
-
+//Rutas para historico
+api.post('/userhistory', historico_controller.saveActionAPI);
 
 
 // Exportamos la configuración
