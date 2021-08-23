@@ -24,6 +24,7 @@ api.post('/rolesypermisos/:rol_id', roles_controller.addRolesPermisos);
 api.get('/rolesypermisos/:user_id', roles_controller.getRolesPermisos);
 api.get('/rolesbyuser/:user_id', roles_controller.getRolesByUser);
 api.get('/rolypermisos/:rol_id', roles_controller.getPermisosRol);
+api.get('/rolbyrolname', roles_controller.RolbyRolName);
 
 
 // Rutas para las api de usuario

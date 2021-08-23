@@ -233,7 +233,7 @@ function saveAvatar(avatar, usuario) {
 
 function getUserHistory(req, res) {
     const id = req.params.id;
-    let query = `SELECT * FROM user_history WHERE user_id=${id}`;
+    let query = `SELECT * FROM user_history WHERE user_id=${id} ORDER BY id DESC`;
     conexion.query(query, function(error, result, field) {
         if (error) {
             return res.status(500).send({ message: 'Error interno del servidor por favor intentelo mas tarde' });
