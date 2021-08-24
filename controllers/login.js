@@ -8,7 +8,7 @@ function login(req, res) {
     var user = body.user;
     var pass = body.pass;
 
-    let query = `SELECT usuarios.*, roles.rol_name FROM usuarios INNER JOIN roles_usuarios ON usuarios.id=roles_usuarios.user_id INNER JOIN roles ON roles_usuarios.rol_id=roles.id WHERE usuarios.user="${user}"`;
+    let query = `SELECT usuarios.*, roles.rol_name, rp.is_all, rp.is_edit, rp.is_create, rp.is_delete, rp.is_read FROM usuarios INNER JOIN roles_usuarios ON usuarios.id=roles_usuarios.user_id INNER JOIN roles ON roles_usuarios.rol_id=roles.id INNER JOIN roles_permisos AS rp ON roles.id=rp.rol_id WHERE usuarios.user="${user}"`;
     conexion.query(query, function(error, result, field) {
         if (error)
             return res.status(500).send({ message: 'error en el servidor', status: 500, err: error });
