@@ -266,7 +266,7 @@ function tableUserHistory() {
         user_id int(11) NOT NULL,
         usuario varchar(255) NOT NULL,
         accion TEXT NOT NULL,
-        fecha varchar(255) NOT NULL,
+        fecha varchar(255) NOT NULL
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`;
     conexion.query(query, function(error, results, fields) {
         if (error) errores += 1;
