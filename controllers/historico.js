@@ -6,18 +6,30 @@ function saveAccion(user_id, accion) {
     conexion.query(`SELECT user FROM usuarios WHERE id=${user_id}`, function(error, resulta, fieldd) {
         if (error) {
             console.log(error);
+            return error;
         } else {
             let query = `INSERT INTO user_history (id, user_id, usuario, accion, fecha) VALUES (NULL, ${user_id}, "${resulta[0].user}", "${accion}", "${fecha}")`;
             conexion.query(query, function(err, result, field) {
                 if (err) {
                     console.log('error', err);
-                } else {}
+                    return error;
+                } else {
+                    return result;
+                }
             });
         }
-    })
+    });
+}
 
+function saveActionAPI(req, res) {
+    const body = req.body;
+    const user_id = body.id;
+    const accion = body.accion;
+    return res.status(200).send({ status: saveAccion(user_id, accion) });
 }
 
 module.exports = {
-    saveAccion
+    saveAccion,
+    saveActionAPI,
+
 };

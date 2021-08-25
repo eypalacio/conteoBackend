@@ -175,6 +175,19 @@ function getPermisosRol(req, res) {
     });
 }
 
+function RolbyRolName(req, res) {
+    console.log(req.params);
+    var rol_name = req.params.rolname;
+    console.log(rol_name);
+    var query = `SELECT * FROM roles WHERE rol_name="${rol_name}"`;
+    conexion.query(query, function(error, results, fields) {
+        if (error)
+            return res.status(500).send({ message: error });
+        if (results)
+            return res.status(200).send(results);
+    });
+}
+
 module.exports = {
     saveRol,
     getRolesPermisos,
@@ -183,5 +196,6 @@ module.exports = {
     deleteRol,
     addRolesPermisos,
     getRolesByUser,
-    getPermisosRol
+    getPermisosRol,
+    RolbyRolName,
 };

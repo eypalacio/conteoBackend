@@ -10,6 +10,7 @@ var login_controller = require('../controllers/login');
 var document_controller = require('../controllers/documents');
 var managedb_controller = require('../database/manageDB');
 var superuser_controller = require('../database/superuser');
+var historico_controller = require('../controllers/historico');
 
 // Llamamos al router
 var api = express.Router();
@@ -23,6 +24,7 @@ api.post('/rolesypermisos/:rol_id', roles_controller.addRolesPermisos);
 api.get('/rolesypermisos/:user_id', roles_controller.getRolesPermisos);
 api.get('/rolesbyuser/:user_id', roles_controller.getRolesByUser);
 api.get('/rolypermisos/:rol_id', roles_controller.getPermisosRol);
+api.get('/rolbyrolname', roles_controller.RolbyRolName);
 
 
 // Rutas para las api de usuario
@@ -54,7 +56,8 @@ api.get('/database', managedb_controller.createTables);
 api.get('/superuser', superuser_controller.createSuperUser);
 api.post('/superuser', superuser_controller.saveSuperUsuario);
 
-
+//Rutas para historico
+api.post('/userhistory', historico_controller.saveActionAPI);
 
 
 // Exportamos la configuración
