@@ -24,6 +24,7 @@ app.use(bodyParser.json());
 // Configuracion para subir imagenes
 app.use(fileUpload());
 
+
 // Importamos las rutas
 var routes = require('./urls_api/url');
 
@@ -45,6 +46,10 @@ app.post('/uploads', (req, res) => {
         return res.status(200).send({ message: 'File upload' })
 
     })
+})
+
+app.get('/api',(req, res)=>{
+    res.status(200).send({'Hola mundo': 'asa'});
 })
 
 

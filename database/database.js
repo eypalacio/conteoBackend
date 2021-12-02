@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 const host = 'localhost';
-const database = 'sistema_documental';
+const database = 'sistema';
 const user = 'root';
 const password = '';
 
