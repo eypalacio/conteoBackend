@@ -4,7 +4,7 @@ const { json } = require('body-parser');
 
 function getSistema(req, res) {
     var query = ``;
-    conexion.query(`SELECT * FROM sistema `, function(error, results, fields) {
+    conexion.query(`SELECT * FROM sistema order by nomb_sistema asc`, function(error, results, fields) {
         if (error) {
             console.log(error);
             return res.status(500).send(error);

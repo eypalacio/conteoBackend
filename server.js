@@ -4,13 +4,6 @@
 const express = require('express')
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const fileUpload = require('express-fileupload');
-const multipart = require('connect-multiparty');
-
-const multiPartMiddleware = multipart({
-    uploadDir: './public/images-avatar'
-});
-
 
 const app = express();
 const port = 3000;
@@ -20,45 +13,18 @@ app.use(cors());
 // Configuring body parser middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-// Configuracion para subir imagenes
-app.use(fileUpload());
-
-
 // Importamos las rutas
 var routes = require('./urls_api/url');
 
 
 // Cargamos las rutas
 app.use('/apis', routes);
-
-
-app.post('/uploads', (req, res) => {
-
-    let EDFile = req.files.avatar;
-
-
-    EDFile.mv(`./public/images-doc/${EDFile.name}`, err => {
-
-        if (err) return res.status(500).send({ message: err })
-
-
-        return res.status(200).send({ message: 'File upload' })
-
-    })
-})
-
-app.get('/api',(req, res)=>{
-    res.status(200).send({'Hola mundo': 'asa'});
-})
-
-
 module.exports = app;
 
 
-const conexion = require('./database/database');
-const api = require('./urls_api/url');
-conexion.connect(function(err) {
+const conection = require('./database/database');
+// const api = require('./urls_api/url');
+conection.connect(function(err) {
     if (err) {
         console.error(err);
         return;
