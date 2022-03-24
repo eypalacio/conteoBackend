@@ -22,13 +22,6 @@ function buscarMensaje(req, res){
     if(fecha != ''){
         query +=`WHERE fecha = '${fecha}' `
     }
-    if(hora != ''){
-        if(fecha !=''){
-        query+=`AND hora > '${hora}'`
-        }else{
-            query+= `where hora > '${hora}'`
-        }
-    }
     query += ` ORDER BY tipo_msje asc, fecha desc`;
     console.log(query);
     conexion.query(query, function(err, result){
@@ -41,7 +34,35 @@ function buscarMensaje(req, res){
     })
 }
 
+function buscarMensajeHora(req, res){
+    let query = `SELECT * FROM conteo_swift `
+    let fecha = req.query.fecha
+    let hora = req.query.hora
+
+    if(fecha != ''){
+        query+= `WHERE fecha = '${fecha}'`
+    }
+    if(hora != ''){
+        if(fecha != ''){
+            query+= `AND hora = '${hora}'`
+        }else {
+            query+= `WHERE hora = ${hora}`
+        }       
+    }
+    query+= `ORDER BY tipo_msje asc, hora desc`
+
+    conexion.query(query, function(error, result){
+        if(error){
+            res.status(500).send(error)
+        }
+        if(result){
+            res.status(200).send(result)
+        }
+    })
+}
+
 module.exports = {
     getMensaje,
     buscarMensaje,
+    buscarMensajeHora,
 }

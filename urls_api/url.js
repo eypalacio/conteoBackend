@@ -31,6 +31,7 @@ api.get('/agenda/:id',agenda_controller.getAgendaByID)
 //swift
 api.get('/conteo',swift_controller.getMensaje)
 api.get('/conteob',swift_controller.buscarMensaje)
+api.get('/conteoh',swift_controller.buscarMensajeHora)
 
 // Exportamos la configuración
 module.exports = api;
