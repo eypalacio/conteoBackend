@@ -1,40 +1,41 @@
-const mysql = require('mysql');
-const host = 'localhost';
-const database = 'test';
-const user = 'root';
-const password = '';
+/****
+ * conexion base de datos local */
 
-const conexion = mysql.createConnection({
-    host: host,
-    database: database,
-    user: user,
-    password: password,
-});
+const sql = require('mssql');
+const config = {
+    "server": 'localhost',
+    "database": 'ConteoT24',
+    "user": 'swift',
+    "password": '123456*',
+    "port": 1433,
+    "options": {
+        "encrypt": false,
+        "trustServerCertificate": true,
+        "enableArithAbort": true,
+        "trustedConnection": true,
+    }
+}
 
-
-
-// const sql = require('mssql');
-// const config = {
-//     "server": 'localhost',
-//     "database": 'aa',
+//  const sql = require('mssql');
+//  const config = {
+//     "server": '172.16.30.1',
+//     "database": 'ConteoT24',
 //     "user": 'sa',
-//     "password": 'sq!server',
+//     "password": 'D@ta6enter2019',
 //     "port": 1433,
 //     "options": {
 //         "encrypt": false,
-//         // "trustServerCertificate": true,
-//         // "enableArithAbort": true,
-//         // "trustedConnection": true,
+//         "trustServerCertificate": true,
+//         "enableArithAbort": true,
+//         "trustedConnection": true,
 //     }
 // }
 
-// sql.connect(config, err => {
-//     if (err) {
-//         console.log(err);
-//     }
-//     console.log("Connection Successful !");
-// })
+sql.connect(config, err => {
+    if (err) {
+        console.log(err);
+    }
+    console.log("Connection Successful !");
+})
 
-//var conexion = mssql.connect(config);
-
-module.exports = conexion;
+module.exports = sql;

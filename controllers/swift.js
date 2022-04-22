@@ -1,62 +1,59 @@
 const conexion = require('../database/database');
 const bcrypt = require('bcrypt');
-const { json } = require('body-parser');
+const {json} = require('body-parser');
 
+
+/**
+ * funtcion getMensaje() busca y devuelve todos los mensajes de la base de datos ConteoT24 -- dbo.ConteoT24
+ * se ordena x tipo de mensaje y fecha mas reciente
+ * */
 function getMensaje(req, res) {
-    let query = `SELECT * FROM conteo_swift ORDER BY  tipo_msje asc, fecha desc`
-
-    conexion.query(query, function (err,result){
-        if(err){
+    let query = `SELECT * FROM ConteoT24 ORDER BY tipoM asc, fecha desc`
+    console.log(query)
+    conexion.query(query, function (err, result) {
+        if (err) {
             return res.status(500).send('err')
         }
-        if(result){
-            return res.status(200).send(result)
+        if (result) {
+            return res.status(200).send(result.recordsets[0])
         }
     })
 }
 
-function buscarMensaje(req, res){
-    let query = `SELECT * FROM conteo_swift `
-    let fecha = req.query.fecha;
-    let hora = req.query.hora
-    if(fecha != ''){
-        query +=`WHERE fecha = '${fecha}' `
+/**
+ * funtcion buscarMensajeTipo() busca y devuelve todos los mensajes de la base de datos ConteoT24 -- dbo.ConteoT24 cuyo tipo sea el especificado por el usuario
+ * si la fecha || hora esta especificada devuelve por el tipo de mensaje mostrando los de la fecha y hora especificadas
+ * se ordena x tipo de mensajes
+ * */
+function buscarMensaje(req,res){
+    let tipoM = req.query.tipo
+    let  fecha = req.query.fecha;
+    let hora = req.query.hora;
+    let query = `SELECT * From ConteoT24 `
+    
+    if(tipoM !=-1){
+        query+=`WHERE tipoM = '${tipoM}'`
     }
-    query += ` ORDER BY tipo_msje asc, fecha desc`;
+
+    if (fecha != '' && fecha != 'NaN/0NaN/NaN'){
+        if(query.includes(`WHERE`)){
+            query+= ` AND fecha = '${fecha}'`    
+            }else
+        query+=` WHERE fecha = '${fecha}'`
+    }
+    if (hora != ''){
+        query+= ` AND hora like '%${hora}%'`
+    }
+    query += ` ORDER BY tipoM ASC, fecha DESC`
     console.log(query);
-    conexion.query(query, function(err, result){
-        if(err){
-            return res.status(500).send('err');
-        }
-        if(result){
-            return res.status(200).send(result);
-        }
-    })
-}
+    console.log(req.query);
 
-function buscarMensajeHora(req, res){
-    let query = `SELECT * FROM conteo_swift `
-    let fecha = req.query.fecha
-    let hora = req.query.hora
-
-    if(fecha != ''){
-        query+= `WHERE fecha = '${fecha}'`
-    }
-    if(hora != ''){
-        if(fecha != ''){
-            query+= `AND hora = '${hora}'`
-        }else {
-            query+= `WHERE hora = ${hora}`
-        }       
-    }
-    query+= `ORDER BY tipo_msje asc, hora desc`
-
-    conexion.query(query, function(error, result){
-        if(error){
-            res.status(500).send(error)
+    conexion.query(query, function (error, result){
+        if (error){
+            return res.status(404).send(error);
         }
-        if(result){
-            res.status(200).send(result)
+        if (result){
+            return res.status(200).send(result.recordsets[0]);
         }
     })
 }
@@ -64,5 +61,4 @@ function buscarMensajeHora(req, res){
 module.exports = {
     getMensaje,
     buscarMensaje,
-    buscarMensajeHora,
 }
