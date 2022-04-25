@@ -42,7 +42,10 @@ function buscarMensaje(req,res){
         query+=` WHERE fecha = '${fecha}'`
     }
     if (hora != ''){
-        query+= ` AND hora like '%${hora}%'`
+        if(query.includes(`WHERE`)){
+            query+= ` AND hora > '${hora}'`    
+            }else
+        query+= ` WHERE hora > '${hora}'`
     }
     query += ` ORDER BY tipoM ASC, fecha DESC`
     console.log(query);
@@ -50,6 +53,7 @@ function buscarMensaje(req,res){
 
     conexion.query(query, function (error, result){
         if (error){
+            console.log(error);
             return res.status(404).send(error);
         }
         if (result){
