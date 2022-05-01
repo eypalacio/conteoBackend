@@ -1,6 +1,6 @@
 const conexion = require('../database/database');
 const bcrypt = require('bcrypt');
-const {json} = require('body-parser');
+const { json } = require('body-parser');
 
 
 /**
@@ -25,38 +25,53 @@ function getMensaje(req, res) {
  * si la fecha || hora esta especificada devuelve por el tipo de mensaje mostrando los de la fecha y hora especificadas
  * se ordena x tipo de mensajes
  * */
-function buscarMensaje(req,res){
+function buscarMensaje(req, res) {
     let tipoM = req.query.tipo
-    let  fecha = req.query.fecha;
+    let fecha = req.query.fecha;
     let hora = req.query.hora;
     let query = `SELECT * From ConteoT24 `
-    
-    if(tipoM !=-1){
-        query+=`WHERE tipoM = '${tipoM}'`
+
+    if (tipoM != -1) {
+        query += `WHERE tipoM = '${tipoM}'`
     }
 
-    if (fecha != '' && fecha != 'NaN/0NaN/NaN'){
-        if(query.includes(`WHERE`)){
-            query+= ` AND fecha = '${fecha}'`    
-            }else
-        query+=` WHERE fecha = '${fecha}'`
+    if (fecha != '' && fecha != 'NaN/0NaN/NaN') {
+        if (query.includes(`WHERE`)) {
+            query += ` AND fecha = '${fecha}'`
+        } else
+            query += ` WHERE fecha = '${fecha}'`
     }
-    if (hora != ''){
-        if(query.includes(`WHERE`)){
-            query+= ` AND hora > '${hora}'`    
-            }else
-        query+= ` WHERE hora > '${hora}'`
+    if (hora != '') {
+        if (query.includes(`WHERE`)) {
+            // console.log(hora.substring(3,5));
+            if (hora.substring(3, 5) == '00') {
+                let h_final = parseInt(hora.substring(0, 2)) + 1;
+                let hor = (h_final < 10 ? '0' + h_final : h_final) + ':00'
+                query += ` AND hora BETWEEN '${hora}' AND '${hor}'`
+            } else {
+                query += ` AND hora > '${hora}'`
+            }
+        } else {
+            if (hora.substring(3, 5) == '00') {
+                let h_final = parseInt(hora.substring(0, 2)) + 1;
+                let hor = (h_final < 10 ? '0' + h_final : h_final) + ':00'
+                query += ` WHERE hora BETWEEN '${hora}' AND '${hor}'`
+            } else {
+                query += ` WHERE hora like '${hora}%'`
+            }
+        }
+
     }
     query += ` ORDER BY tipoM ASC, fecha DESC`
     console.log(query);
     console.log(req.query);
 
-    conexion.query(query, function (error, result){
-        if (error){
+    conexion.query(query, function (error, result) {
+        if (error) {
             console.log(error);
             return res.status(404).send(error);
         }
-        if (result){
+        if (result) {
             return res.status(200).send(result.recordsets[0]);
         }
     })
