@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4deebe2f-52bb-424d-8293-c1cdf70b9f38" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/backend.rar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/agenda.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/sistema.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/swift.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/swift.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ctc.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/database.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/database.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/urls_api/url.js" beforeDir="false" afterPath="$PROJECT_DIR$/urls_api/url.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="27ym8wFC9WGxgdXLGNa7WWGoqcB" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4deebe2f-52bb-424d-8293-c1cdf70b9f38" name="Changes" comment="" />
+      <created>1650300543878</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1650300543878</updated>
+      <workItem from="1650300545475" duration="1674000" />
+      <workItem from="1650636587887" duration="1709000" />
+      <workItem from="1650888554029" duration="2202000" />
+      <workItem from="1650908469597" duration="1869000" />
+      <workItem from="1651064330840" duration="1429000" />
+      <workItem from="1651081150436" duration="2967000" />
+      <workItem from="1651151302386" duration="2434000" />
+      <workItem from="1651234883793" duration="664000" />
+      <workItem from="1651582981580" duration="1290000" />
+      <workItem from="1651775048641" duration="2016000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
