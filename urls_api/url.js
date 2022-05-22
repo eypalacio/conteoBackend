@@ -11,7 +11,7 @@ var api = express.Router();
 
 /** swift */
 api.get('/conteo',swift_controller.getMensaje)
-
+api.get('/mostrarHoras',swift_controller.mostrarHoras)
 api.get('/tipoM',swift_controller.buscarMensaje)
 
 

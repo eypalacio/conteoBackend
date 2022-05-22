@@ -1,6 +1,7 @@
 const conexion = require('../database/database');
 const bcrypt = require('bcrypt');
 const { json } = require('body-parser');
+const { query } = require('../database/database');
 
 
 /**
@@ -8,7 +9,7 @@ const { json } = require('body-parser');
  * se ordena x tipo de mensaje y fecha mas reciente
  * */
 function getMensaje(req, res) {
-    let query = `SELECT * FROM ConteoT24 ORDER BY tipoM asc, fecha desc`
+    let query = `SELECT * FROM ConteoT24 WHERE fecha LIKE CONVERT(VARCHAR(10),GETDATE(),111) ORDER BY tipoM asc, fecha desc`
     console.log(query)
     conexion.query(query, function (err, result) {
         if (err) {
@@ -43,25 +44,13 @@ function buscarMensaje(req, res) {
     }
     if (hora != '') {
         if (query.includes(`WHERE`)) {
-            // console.log(hora.substring(3,5));
-            if (hora.substring(3, 5) == '00') {
-                let h_final = parseInt(hora.substring(0, 2)) + 1;
-                let hor = (h_final < 10 ? '0' + h_final : h_final) + ':00'
-                query += ` AND hora BETWEEN '${hora}' AND '${hor}'`
+            query+=` AND  hora = '${hora}'`
             } else {
-                query += ` AND hora > '${hora}'`
+                query += ` WHERE hora = '${hora}'`
             }
-        } else {
-            if (hora.substring(3, 5) == '00') {
-                let h_final = parseInt(hora.substring(0, 2)) + 1;
-                let hor = (h_final < 10 ? '0' + h_final : h_final) + ':00'
-                query += ` WHERE hora BETWEEN '${hora}' AND '${hor}'`
-            } else {
-                query += ` WHERE hora like '${hora}%'`
-            }
-        }
-
     }
+
+    
     query += ` ORDER BY tipoM ASC, fecha DESC`
     console.log(query);
     console.log(req.query);
@@ -77,7 +66,21 @@ function buscarMensaje(req, res) {
     })
 }
 
+function mostrarHoras(req, res){
+  let  query=`SELECT DISTINCT hora FROM ConteoT24 where fecha LIKE CONVERT(VARCHAR(10),GETDATE(),111)`;
+
+    conexion.query(query, function(error, result){
+        if(error){
+            return res.status(500).send(error);
+        }
+        if(result){
+            return res.status(200).send(result.recordset);
+        }
+    })
+}
+
 module.exports = {
     getMensaje,
     buscarMensaje,
+    mostrarHoras,
 }
