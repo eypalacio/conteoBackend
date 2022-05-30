@@ -6,7 +6,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
-const port = 3000;
+const port = 9608;
+
 
 app.use(cors());
 
@@ -28,6 +29,7 @@ module.exports = app;
 
 
 const conection = require('./database/database');
+const { stdout, stderr } = require('process');
 // const api = require('./urls_api/url');
 conection.connect(function(err) {
     if (err) {

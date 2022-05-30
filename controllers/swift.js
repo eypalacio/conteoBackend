@@ -2,6 +2,7 @@ const conexion = require('../database/database');
 const bcrypt = require('bcrypt');
 const { json } = require('body-parser');
 const { query } = require('../database/database');
+const exec  = require('child_process').exec;
 
 
 /**
@@ -44,16 +45,16 @@ function buscarMensaje(req, res) {
     }
     if (hora != '') {
         if (query.includes(`WHERE`)) {
-            query+=` AND  hora = '${hora}'`
-            } else {
-                query += ` WHERE hora = '${hora}'`
-            }
+            query += ` AND  hora = '${hora}'`
+        } else {
+            query += ` WHERE hora = '${hora}'`
+        }
     }
 
-    
+
     query += ` ORDER BY tipoM ASC, fecha DESC`
-    console.log(query);
-    console.log(req.query);
+    // console.log(query);
+    // console.log(req.query);
 
     conexion.query(query, function (error, result) {
         if (error) {
@@ -66,21 +67,37 @@ function buscarMensaje(req, res) {
     })
 }
 
-function mostrarHoras(req, res){
-  let  query=`SELECT DISTINCT hora FROM ConteoT24 where fecha LIKE CONVERT(VARCHAR(10),GETDATE(),111)`;
+function mostrarHoras(req, res) {
+    let query = `SELECT DISTINCT hora FROM ConteoT24 where fecha LIKE CONVERT(VARCHAR(10),GETDATE(),111)`;
 
-    conexion.query(query, function(error, result){
-        if(error){
+    conexion.query(query, function (error, result) {
+        if (error) {
             return res.status(500).send(error);
         }
-        if(result){
+        if (result) {
             return res.status(200).send(result.recordset);
         }
     })
+}
+
+function ejecutarETL(req, res) {
+
+// const fs = require('fs');
+// fs.open('D:\Sh.png','w+',function(error,result){
+//     if(error){console.log(error)}
+//     if(result){console.log(result)}
+// })
+var cp = require('child_process');
+cp.exec('', function(e, stdout, stderr) {
+  console.log(stdout);
+  console.log(stderr);
+  if (e) throw e;
+});
 }
 
 module.exports = {
     getMensaje,
     buscarMensaje,
     mostrarHoras,
+    ejecutarETL,
 }
