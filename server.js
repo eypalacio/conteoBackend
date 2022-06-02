@@ -5,22 +5,25 @@ const express = require('express')
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-const app = express();
-const port = 3000;
+require('dotenv').config({path:'./.env'});
+//  const port = 3000;
+const port = process.env.PORT;
 
+const app = express();
+const list = process.env.LIST_ALLOW_ORIGIN
 app.use(cors());
 
-// Configuring body parser middlewares
+/*** Configuring body parser middlewares */
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
-// Importamos las rutas
+/**Importamos las rutas*/
 var routes = require('./urls_api/url');
 var apis = require('./controllers/apis')
 
 
-// Cargamos las rutas
+/** Cargamos las rutas */
 app.use('/apis', routes);
 app.get('/api',apis.getApis)
 

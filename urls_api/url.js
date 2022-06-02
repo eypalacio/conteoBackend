@@ -5,6 +5,7 @@ var express = require('express');
 
 /** controlador de la api */
 var swift_controller = require('../controllers/swift')
+var ejecutarETL_controller = require('../controllers/exec_ETL')
 
 /** router */
 var api = express.Router();
@@ -12,5 +13,7 @@ var api = express.Router();
 /** swift */
 api.get('/conteo',swift_controller.getMensaje)
 api.get('/tipoM',swift_controller.buscarMensaje)
+api.get('/mostrarHoras',swift_controller.mostrarHoras)  
+api.get('/execETL',ejecutarETL_controller.ejecutarETL)  
 
 module.exports = api;

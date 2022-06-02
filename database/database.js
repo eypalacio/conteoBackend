@@ -1,27 +1,14 @@
 /****
  * conexion base de datos local */
 
-// const sql = require('mssql');
-// const config = {
-//     "server": '10.1.13.41',
-//     "database": 'ConteoT24',
-//     "user": 'swift',
-//     "password": 'ok12345*',
-//     "port": 1433,
-//     "options": {
-//         "encrypt": false,
-//         "trustServerCertificate": true,
-//         "enableArithAbort": true,
-//         "trustedConnection": true,
-//     }
-// }
+require('dotenv').config({path:'./.env'});
 
- const sql = require('mssql');
- const config = {
-    "server": '172.16.30.1',
-    "database": 'ConteoT24',
-    "user": 'sa',
-    "password": 'D@ta6enter2019',
+const sql = require('mssql');
+const config = {
+    "server": process.env.SERVER_DB,
+    "database": process.env.DATA_BASE,
+    "user": process.env.USER_DB,
+    "password": process.env.PASS_DB,
     "port": 1433,
     "options": {
         "encrypt": false,
