@@ -5,7 +5,7 @@ var express = require('express');
 
 /** controlador de la api */
 var swift_controller = require('../controllers/swift')
-var ejecutar_archivos_externos = require('../controllers/ejecutar_archivos_ext')
+var excFile_controller = require('../controllers/ejecutar_archivos_ext')
 
 /** router */
 var api = express.Router();
@@ -14,7 +14,8 @@ var api = express.Router();
 api.get('/conteo',swift_controller.getMensaje);
 api.get('/mostrarHoras',swift_controller.mostrarHoras);
 api.get('/tipoM',swift_controller.buscarMensaje);
-api.get('/execETL',swift_controller.ejecutarETL);
+
+api.get('/execETL',excFile_controller.ejecutarETL);
 
 
 module.exports = api;

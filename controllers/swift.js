@@ -8,9 +8,10 @@ const exec  = require('child_process').exec;
 /**
  * funtcion getMensaje() busca y devuelve todos los mensajes de la base de datos ConteoT24 -- dbo.ConteoT24
  * se ordena x tipo de mensaje y fecha mas reciente
+ * WHERE fecha LIKE CONVERT(VARCHAR(10),GETDATE(),111) ORDER BY tipoM asc, fecha desc
  * */
 function getMensaje(req, res) {
-    let query = `SELECT * FROM ConteoT24 WHERE fecha LIKE CONVERT(VARCHAR(10),GETDATE(),111) ORDER BY tipoM asc, fecha desc`
+    let query = `SELECT * FROM ConteoT24 `
     console.log(query)
     conexion.query(query, function (err, result) {
         if (err) {
@@ -80,24 +81,8 @@ function mostrarHoras(req, res) {
     })
 }
 
-function ejecutarETL(req, res) {
-
-// const fs = require('fs');
-// fs.open('D:\Sh.png','w+',function(error,result){
-//     if(error){console.log(error)}
-//     if(result){console.log(result)}
-// })
-var cp = require('child_process');
-cp.exec('', function(e, stdout, stderr) {
-  console.log(stdout);
-  console.log(stderr);
-  if (e) throw e;
-});
-}
-
 module.exports = {
     getMensaje,
     buscarMensaje,
     mostrarHoras,
-    ejecutarETL,
 }
