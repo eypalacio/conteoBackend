@@ -11,7 +11,7 @@ const exec  = require('child_process').exec;
  * WHERE fecha LIKE CONVERT(VARCHAR(10),GETDATE(),111) ORDER BY tipoM asc, fecha desc
  * */
 function getMensaje(req, res) {
-    let query = `SELECT * FROM ConteoT24 `
+    let query = `SELECT * FROM ConteoT24 where fecha LIKE CONVERT(VARCHAR(10),GETDATE(),111)`
     console.log(query)
     conexion.query(query, function (err, result) {
         if (err) {
@@ -38,7 +38,7 @@ function buscarMensaje(req, res) {
         query += `WHERE tipoM = '${tipoM}'`
     }
 
-    if (fecha != '' && fecha != 'NaN/0NaN/NaN') {
+    if (fecha != '' && fecha != 'NaN/0NaN/NaN' && fecha != undefined && fecha != 'Invalid date') {
         if (query.includes(`WHERE`)) {
             query += ` AND fecha = '${fecha}'`
         } else
@@ -69,7 +69,16 @@ function buscarMensaje(req, res) {
 }
 
 function mostrarHoras(req, res) {
-    let query = `SELECT DISTINCT hora FROM ConteoT24 where fecha LIKE CONVERT(VARCHAR(10),GETDATE(),111)`;
+    let fecha = req.query.fecha;
+    let query = `SELECT DISTINCT hora FROM ConteoT24 `;
+
+    if (fecha == '' && fecha == 'NaN/0NaN/NaN' && fecha == undefined && fecha == 'Invalid date') {
+        query+= `where fecha LIKE CONVERT(VARCHAR(10),GETDATE(),111)`
+    }
+    else 
+    if (fecha != '' && fecha != 'NaN/0NaN/NaN' && fecha != undefined && fecha != 'Invalid date') {
+        query+= `where fecha = '${fecha}'`
+    }
 
     conexion.query(query, function (error, result) {
         if (error) {
