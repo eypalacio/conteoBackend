@@ -9,6 +9,8 @@ var ejecutarETL_controller = require('../controllers/exec_ETL');
 var repair_controller = require('../controllers/repair');
 var slbtr_controller = require('../controllers/slbtr');
 var test = require('../controllers/test');
+var slbtr_controller = require('../controllers/slbtr');
+var excFile_controller = require('../controllers/ejecutar_archivos_ext');
 
 /** router */
 var api = express.Router();

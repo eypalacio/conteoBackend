@@ -1,6 +1,8 @@
 const conexion = require('../database/database');
 const bcrypt = require('bcrypt');
 const { json } = require('body-parser');
+const { query } = require('../database/database');
+const exec  = require('child_process').exec;
 
 function mensajesSLBTR(req, res) { //funcion q trae todos los mensajes del dia where fecha LIKE CONVERT(VARCHAR(10),GETDATE(),23)
     let query = ` SELECT * FROM ConteoSLBTR_FechaHora where fecha LIKE CONVERT(VARCHAR(10),GETDATE(),23)`;
@@ -13,6 +15,7 @@ function mensajesSLBTR(req, res) { //funcion q trae todos los mensajes del dia w
         }
     })
 }
+
 
 function conteoSLBTR(req, res) {
     let query = `SELECT * FROM ConteoSLBTRConsolidado WHERE fecha LIKE CONVERT(VARCHAR(10),GETDATE(),23) `;
@@ -29,5 +32,5 @@ console.log(query);
 
 module.exports = {
     mensajesSLBTR,
-    conteoSLBTR
+    conteoSLBTR,
 }
