@@ -52,8 +52,8 @@ function buscarMensaje(req, res) {
         }
     }
 
-    console.log(query);
-    console.log(req.query);
+    // console.log(query);
+    // console.log(req.query);
 
     conexion.query(query, function (error, result) {
         if (error) {
@@ -77,8 +77,8 @@ function mostrarHoras(req, res) {
         if (fecha != '' || fecha != 'NaN/0NaN/NaN' || fecha != undefined || fecha != 'Invalid date') {
             query += ` where fecha = '${fecha}'`
         }
-    console.log(query);
-    console.log(req.query);
+    // console.log(query);
+    // console.log(req.query);
 
     conexion.query(query, function (error, result) {
         if (error) {
@@ -91,6 +91,7 @@ function mostrarHoras(req, res) {
         }
     })
 }
+
 
 module.exports = {
     getMensaje,

@@ -11,6 +11,7 @@ const port = process.env.PORT;
 
 const app = express();
 const list = process.env.LIST_ALLOW_ORIGIN;
+
 app.use(cors());
 
 /*** Configuring body parser middlewares */
