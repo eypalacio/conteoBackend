@@ -6,7 +6,7 @@ const { reject } = require('bcrypt/promises');
 
 
 
-function ejecutar(req, res){
+function ejecutarETL(req, res){
     const { spawn } = require('child_process');
     const child = spawn('"E:/Mio/desarrollo web/Project/SwiftMensajes/backend/mover_archivos.bat"', {shell: true});
     child.stdout.on('data', (data) =>{
@@ -21,20 +21,20 @@ function ejecutar(req, res){
     
     }
 
-function ejecutarETL(){
-    return new Promise((resolved, reject)=>{
-        setTimeout(()=>{
-            resolved(ejecutar());
-        }, 3000)
-    })
-}
+// function ejecutarETL(){
+//     return new Promise((resolved, reject)=>{
+//         setTimeout(()=>{
+//             resolved(ejecutar());
+//         }, 3000)
+//     })
+// }
 
-ejecutarETL().then(res =>{
-    console.log(res);
-})
+// ejecutarETL().then(res =>{
+//     console.log(res);
+// })
 
 
 module.exports = {
     ejecutarETL,
-    ejecutar,
+    // ejecutar,
 }

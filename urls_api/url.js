@@ -19,7 +19,7 @@ var api = express.Router();
 api.get('/conteo',swift_controller.getMensaje);
 api.get('/tipoM',swift_controller.buscarMensaje);
 api.get('/mostrarHoras',swift_controller.mostrarHoras);  
-api.get('/execETL',ejecutarETL_controller.ejecutar);
+api.get('/execETL',ejecutarETL_controller.ejecutarETL);
 
 api.get('/mensajesSLBTR',slbtr_controller.mensajesSLBTR); 
 api.get('/conteoSLBTR',slbtr_controller.conteoSLBTR);
