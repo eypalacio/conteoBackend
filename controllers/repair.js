@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const { json } = require('body-parser');
 
 function repair(req, res) {//trae todos los datos de repair
-    let query = `SELECT * FROM Repair where nuevo = 'n' order by RECID DESC`
+    let query = `SELECT * FROM Repair order by RECID DESC`
 
     conexion.query(query, function (error, result) {
         if (error) {

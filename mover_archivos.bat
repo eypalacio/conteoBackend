@@ -1,7 +1,7 @@
 
 @echo off
-  move E:\Mio\scripts\copiar_archivos E:\programas
-  move E:\modelo-205\*.* E:\Mio
+  move "C:\Users\Los puchunguitos\Documents\tt" C:\proyectos
+  move "C:\Users\Los puchunguitos\Documents\tt*.*" C:\proyectos
   echo Se han movido todos los archivos!
 @exit
 
