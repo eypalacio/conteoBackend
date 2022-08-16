@@ -10,7 +10,7 @@ const exec  = require('child_process').exec;
  * se ordena x tipo de mensaje y fecha mas reciente
  * WHERE fecha LIKE CONVERT(VARCHAR(10),GETDATE(),111) ORDER BY tipoM asc, fecha desc
  * */
- function getMensaje(req, res) {
+ function mensajesT24(req, res) {
     let query = `SELECT * FROM ConteoT24 where fecha LIKE CONVERT(VARCHAR(10),GETDATE(),111) order by hora desc`
     console.log(query)
     conexion.query(query, function (err, result) {
@@ -92,7 +92,7 @@ function mostrarHoras(req, res) {
 }
 
 module.exports = {
-    getMensaje,
+    mensajesT24,
     buscarMensaje,
     mostrarHoras,
 }

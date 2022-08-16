@@ -22,7 +22,7 @@ sql.connect(config, err => {
     if (err) {
         console.log(err);
     }
-    console.log("Connection Successful !");
+    console.log("Successful Connection!");
 })
 
 module.exports = sql;

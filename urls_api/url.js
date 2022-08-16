@@ -4,30 +4,25 @@
 var express = require('express');
 
 /** controlador de la api */
-var swift_controller = require('../controllers/swift');
-var ejecutarETL_controller = require('../controllers/exec_ETL');
-var repair_controller = require('../controllers/repair');
-var slbtr_controller = require('../controllers/slbtr');
-var test = require('../controllers/test');
-var slbtr_controller = require('../controllers/slbtr');
-var excFile_controller = require('../controllers/ejecutar_archivos_ext');
+var swiftController = require('../controllers/swift');
+var repairController = require('../controllers/repair');
+var slbtrController = require('../controllers/slbtr');
+var execFileController = require('../controllers/execFileETL');
 
 /** router */
 var api = express.Router();
 
-/** swift */
-api.get('/conteo',swift_controller.getMensaje);
-api.get('/tipoM',swift_controller.buscarMensaje);
-api.get('/mostrarHoras',swift_controller.mostrarHoras);  
-api.get('/execETL',ejecutarETL_controller.ejecutarETL);
+api.get('/mensajesT24',swiftController.mensajesT24);
+api.get('/buscarMensajes',swiftController.buscarMensaje);
+api.get('/mostrarHoras',swiftController.mostrarHoras);  
+api.get('/ejecutarConteoT24',execFileController.ejecutarConteoT24);
 
-api.get('/mensajesSLBTR',slbtr_controller.mensajesSLBTR); 
-api.get('/conteoSLBTR',slbtr_controller.conteoSLBTR);
+api.get('/mensajesSLBTR',slbtrController.mensajesSLBTR); 
+api.get('/conteoSLBTR',slbtrController.conteoSLBTR);
+api.get('/ejecutarConteoSlbtr',execFileController.ejecutarConteoSLBTR)
 
-api.get('/repair',repair_controller.repair);
-api.put('/estado',repair_controller.setEstado);
-
-
+api.get('/repair',repairController.repair);
+api.put('/setEstado',repairController.setEstado);
 
 
 module.exports = api;
