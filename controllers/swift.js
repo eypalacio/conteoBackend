@@ -2,7 +2,7 @@ const conexion = require('../database/database');
 const bcrypt = require('bcrypt');
 const { json } = require('body-parser');
 const { query } = require('../database/database');
-const exec  = require('child_process').exec;
+const exec = require('child_process').exec;
 
 
 /**
@@ -10,9 +10,9 @@ const exec  = require('child_process').exec;
  * se ordena x tipo de mensaje y fecha mas reciente
  * WHERE fecha LIKE CONVERT(VARCHAR(10),GETDATE(),111) ORDER BY tipoM asc, fecha desc
  * */
- function mensajesT24(req, res) {
-    let query = `SELECT * FROM ConteoT24 where fecha LIKE CONVERT(VARCHAR(10),GETDATE(),111) order by hora desc`
-    console.log(query)
+function mensajesT24(req, res) {
+    let query = `SELECT * FROM ConteoT24 where fecha = '2022/08/19'`
+    // console.log(query)
     conexion.query(query, function (err, result) {
         if (err) {
             return res.status(500).send('err')
@@ -59,14 +59,14 @@ function buscarMensaje(req, res) {
 
     conexion.query(query, function (error, result) {
         if (error) {
-            console.log(error);
+            // console.log(error);
             return res.status(404).send(error);
         }
         if (result) {
             return res.status(200).send(result.recordsets[0]);
         }
     })
-    console.log(query);
+    // console.log(query);
 }
 
 function mostrarHoras(req, res) {
@@ -74,12 +74,12 @@ function mostrarHoras(req, res) {
     let query = `SELECT DISTINCT hora FROM ConteoT24 `;
 
     if (fecha == '' || fecha == 'NaN/0NaN/NaN' || fecha == undefined || fecha == 'Invalid date') {
-        query+= `where fecha LIKE CONVERT(VARCHAR(10),GETDATE(),111)`
+        query += `where fecha LIKE CONVERT(VARCHAR(10),GETDATE(),111)`
     }
-    else 
-    if (fecha != '' || fecha != 'NaN/0NaN/NaN' || fecha != undefined || fecha != 'Invalid date') {
-        query+= `where fecha = '${fecha}'`
-    }
+    else
+        if (fecha != '' || fecha != 'NaN/0NaN/NaN' || fecha != undefined || fecha != 'Invalid date') {
+            query += `where fecha = '${fecha}'`
+        }
 
     conexion.query(query, function (error, result) {
         if (error) {

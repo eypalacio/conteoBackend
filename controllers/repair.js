@@ -23,7 +23,7 @@ function setEstado(req, res){
     else
       query = `UPDATE Repair set nuevo = 'x' WHERE id = ${id}`;
 
-      console.log(query);
+    //   console.log(query);
     conexion.query(query, function(error,result){
         if(error){
             return res.status(500).send(error);

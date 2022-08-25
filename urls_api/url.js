@@ -8,6 +8,7 @@ var swiftController = require('../controllers/swift');
 var repairController = require('../controllers/repair');
 var slbtrController = require('../controllers/slbtr');
 var execFileController = require('../controllers/execFileETL');
+var mtSlbtrController = require('../controllers/mtSLBTR');
 
 /** router */
 var api = express.Router();
@@ -23,6 +24,9 @@ api.get('/ejecutarConteoSlbtr',execFileController.ejecutarConteoSLBTR)
 
 api.get('/repair',repairController.repair);
 api.put('/setEstado',repairController.setEstado);
+
+api.get('/mt299',mtSlbtrController.getMT299);
+api.get('/mt206slbtr',mtSlbtrController.getMT206SLBTR);
 
 
 module.exports = api;
